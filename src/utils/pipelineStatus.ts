@@ -43,6 +43,12 @@ function getDaysUntilClose(closeDate: string | undefined): number | undefined {
   today.setHours(0, 0, 0, 0); // Normalize to midnight for consistent day calculation
 
   const closeDateObj = new Date(closeDate);
+
+  // Validate that the date string was parseable
+  if (isNaN(closeDateObj.getTime())) {
+    return undefined;
+  }
+
   closeDateObj.setHours(0, 0, 0, 0);
 
   const diffMs = closeDateObj.getTime() - today.getTime();
