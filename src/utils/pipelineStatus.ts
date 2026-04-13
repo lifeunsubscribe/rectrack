@@ -77,6 +77,9 @@ export function getPipelineStatus(
   closeDate: string | undefined,
   warningDays: number = DEFAULT_WARNING_DAYS
 ): PipelineStatus {
+  // Validate and normalize warningDays to prevent negative values or non-integers
+  const normalizedWarningDays = Math.max(0, Math.floor(warningDays));
+
   // Grey: No checklist period exists for current period
   if (!checklistPeriod) {
     return 'grey';
@@ -96,7 +99,7 @@ export function getPipelineStatus(
   }
 
   // Yellow: Within warning window and incomplete
-  if (daysUntilClose !== undefined && daysUntilClose <= warningDays) {
+  if (daysUntilClose !== undefined && daysUntilClose <= normalizedWarningDays) {
     return 'yellow';
   }
 
