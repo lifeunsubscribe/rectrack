@@ -32,6 +32,7 @@ function areAllStepsComplete(checklist: ChecklistPeriod): boolean {
 
 /**
  * Calculate days from today until the close date
+ * Uses UTC consistently to avoid timezone-dependent calculation errors
  * @returns positive number if future, negative if past, undefined if no close date
  */
 function getDaysUntilClose(closeDate: string | undefined): number | undefined {
@@ -39,9 +40,11 @@ function getDaysUntilClose(closeDate: string | undefined): number | undefined {
     return undefined;
   }
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize to midnight for consistent day calculation
+  // Get current UTC date at midnight
+  const now = new Date();
+  const todayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
 
+  // Parse close date as UTC midnight
   const closeDateObj = new Date(closeDate);
 
   // Validate that the date string was parseable
@@ -49,9 +52,14 @@ function getDaysUntilClose(closeDate: string | undefined): number | undefined {
     return undefined;
   }
 
-  closeDateObj.setHours(0, 0, 0, 0);
+  // Extract UTC date components to ensure consistent midnight comparison
+  const closeDateUTC = Date.UTC(
+    closeDateObj.getUTCFullYear(),
+    closeDateObj.getUTCMonth(),
+    closeDateObj.getUTCDate()
+  );
 
-  const diffMs = closeDateObj.getTime() - today.getTime();
+  const diffMs = closeDateUTC - todayUTC;
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   return diffDays;
