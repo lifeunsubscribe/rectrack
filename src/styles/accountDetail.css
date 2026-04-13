@@ -1,0 +1,30 @@
+/**
+ * Account Detail Page Styles
+ * Supplemental styles for AccountDetail components
+ * Most styling is inline for component portability
+ */
+
+/* Smooth scrolling for timeline and notes sections */
+.account-detail-timeline,
+.account-detail-notes {
+  scroll-behavior: smooth;
+}
+
+/* Print styles - hide modal overlay when printing */
+@media print {
+  [data-modal-backdrop],
+  [data-modal] {
+    display: none !important;
+  }
+
+  .account-detail-edit-button {
+    display: none;
+  }
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .account-metadata-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
