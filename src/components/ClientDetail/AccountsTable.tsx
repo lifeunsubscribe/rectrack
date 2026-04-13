@@ -3,16 +3,15 @@ import AccountRow from './AccountRow';
 
 interface AccountsTableProps {
   accounts: Account[];
+  onAccountClick?: (accountId: string) => void;
 }
 
 /**
  * AccountsTable - Table of client accounts with headers and clickable rows
- * Navigation to account detail page will be implemented in next issue
  */
-function AccountsTable({ accounts }: AccountsTableProps) {
-  const handleAccountClick = (_accountId: string) => {
-    // TODO: Thread an onAccountClick prop up through ClientDetail → App so
-    // clicking an account here navigates to the account-detail view.
+function AccountsTable({ accounts, onAccountClick }: AccountsTableProps) {
+  const handleAccountClick = (accountId: string) => {
+    onAccountClick?.(accountId);
   };
 
   if (accounts.length === 0) {

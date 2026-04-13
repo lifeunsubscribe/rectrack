@@ -141,6 +141,7 @@ function App() {
             checklist={mockChecklists.find((c) => c.client_id === selectedClientId) || null}
             questions={mockQuestions.filter((q) => q.client_id === selectedClientId)}
             schedule={schedule}
+            onAccountClick={navigateToAccount}
           />
         );
       })()}

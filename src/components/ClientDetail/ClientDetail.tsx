@@ -11,6 +11,7 @@ interface ClientDetailProps {
   checklist: ChecklistPeriod | null;
   questions: Question[];
   schedule: Schedule | null;
+  onAccountClick?: (accountId: string) => void;
 }
 
 /**
@@ -24,6 +25,7 @@ function ClientDetail({
   checklist,
   questions,
   schedule,
+  onAccountClick,
 }: ClientDetailProps) {
   // Derive current period from checklist or default to current month
   const currentPeriod = checklist?.period || new Date().toISOString().slice(0, 7); // YYYY-MM format
@@ -41,7 +43,7 @@ function ClientDetail({
 
       <div className="client-detail__content">
         <div className="client-detail__section">
-          <AccountsTable accounts={accounts} />
+          <AccountsTable accounts={accounts} onAccountClick={onAccountClick} />
         </div>
 
         <div className="client-detail__section">
