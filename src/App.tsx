@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import DashboardLayout from './components/Layout/DashboardLayout';
 import DashboardHome from './components/Dashboard/DashboardHome';
 import AccountDetail from './components/AccountDetail/AccountDetail';
 import ClientDetail from './components/ClientDetail/ClientDetail';
 import KanbanBoard from './components/Kanban/KanbanBoard';
+import DemoLogin from './components/Auth/DemoLogin';
 import { useClientFilter } from './hooks/useClientFilter';
 import { useViewState } from './hooks/useViewState';
 import {
@@ -13,7 +15,23 @@ import {
   mockSchedules,
 } from './data';
 
+const DEMO_SESSION_KEY = 'rectrack.demo.user';
+
 function App() {
+  const [demoUser, setDemoUser] = useState<string | null>(() =>
+    typeof window === 'undefined' ? null : sessionStorage.getItem(DEMO_SESSION_KEY),
+  );
+
+  if (!demoUser) {
+    return (
+      <DemoLogin
+        onAuthenticate={(email) => {
+          sessionStorage.setItem(DEMO_SESSION_KEY, email);
+          setDemoUser(email);
+        }}
+      />
+    );
+  }
   const {
     currentView,
     selectedClientId,
