@@ -24,7 +24,7 @@ const DEFAULT_FIELDS: FieldPreference[] = [
   { key: 'close_date', label: 'Close Date', visible: true, order: 7 },
 ];
 
-export function useFieldPreferences(accountType: AccountType) {
+export function useFieldPreferences(_accountType: AccountType) {
   // Initialize field preferences from defaults
   // In production, this would load from user preferences API
   const [preferences, setPreferences] = useState<FieldPreference[]>(DEFAULT_FIELDS);

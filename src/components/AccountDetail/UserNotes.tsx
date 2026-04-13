@@ -8,12 +8,10 @@ interface UserNotesProps {
 /**
  * User notes section
  * Displays freeform notes added by users
- * Filters to show only user_note type
+ * Expects pre-filtered user_note type notes from parent
  */
 export default function UserNotes({ notes }: UserNotesProps) {
-  const userNotes = notes.filter((note) => note.note_type === 'user_note');
-
-  if (userNotes.length === 0) {
+  if (notes.length === 0) {
     return null;
   }
 
@@ -40,7 +38,7 @@ export default function UserNotes({ notes }: UserNotesProps) {
         User Notes
       </h3>
       <div>
-        {userNotes.map((note) => (
+        {notes.map((note) => (
           <UserNoteRow key={note.id} note={note} />
         ))}
       </div>
