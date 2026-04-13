@@ -1,13 +1,18 @@
 /**
  * TopBar component - Breadcrumb navigation and view controls
- * Placeholder implementation for Phase 1 layout shell
+ * Displays breadcrumb navigation and view switcher for Dashboard/Kanban toggle
  */
+
+import type { MainView } from '../../hooks/useViewState';
+import ViewSwitcher from './ViewSwitcher';
 
 interface TopBarProps {
   breadcrumb?: string[];
+  currentView?: MainView;
+  onViewChange?: (view: MainView) => void;
 }
 
-function TopBar({ breadcrumb = ['Dashboard'] }: TopBarProps) {
+function TopBar({ breadcrumb = ['Dashboard'], currentView, onViewChange }: TopBarProps) {
   return (
     <div className="dashboard-layout__topbar">
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -32,9 +37,9 @@ function TopBar({ breadcrumb = ['Dashboard'] }: TopBarProps) {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <div style={{ fontSize: '14px', color: '#7f8c8d' }}>
-          View switcher placeholder
-        </div>
+        {currentView && onViewChange && (
+          <ViewSwitcher currentView={currentView} onViewChange={onViewChange} />
+        )}
       </div>
     </div>
   );

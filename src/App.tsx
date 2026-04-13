@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import DashboardLayout from './components/Layout/DashboardLayout';
 import AccountDetail from './components/AccountDetail/AccountDetail';
 import ClientDetail from './components/ClientDetail/ClientDetail';
 import KanbanBoard from './components/Kanban/KanbanBoard';
 import { useClientFilter } from './hooks/useClientFilter';
+import { useViewState } from './hooks/useViewState';
 import {
   mockClients,
   mockAccounts,
@@ -12,12 +12,18 @@ import {
   mockSchedules,
 } from './data';
 
-type View = 'dashboard' | 'account-detail' | 'client-detail' | 'kanban';
-
 function App() {
-  const [currentView, setCurrentView] = useState<View>('kanban');
-  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
-  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const {
+    currentView,
+    selectedClientId,
+    selectedAccountId,
+    previousMainView,
+    navigateToDashboard,
+    navigateToKanban,
+    navigateToClient,
+    navigateToAccount,
+    navigateBack,
+  } = useViewState('dashboard');
 
   // Use client filter hook to get enriched client data
   const { filteredClients } = useClientFilter({
@@ -28,41 +34,50 @@ function App() {
     schedules: mockSchedules,
   });
 
-  // Navigation handlers
-  const handleNavigateToAccount = (accountId: string) => {
-    setSelectedAccountId(accountId);
-    setCurrentView('account-detail');
-  };
-
-  const handleNavigateToClient = (clientId: string) => {
-    setSelectedClientId(clientId);
-    setCurrentView('client-detail');
-  };
-
-  const handleNavigateToDashboard = () => {
-    setCurrentView('dashboard');
-    setSelectedAccountId(null);
-    setSelectedClientId(null);
-  };
-
-  const handleNavigateToKanban = () => {
-    setCurrentView('kanban');
-    setSelectedAccountId(null);
-    setSelectedClientId(null);
-  };
-
-  // Breadcrumb based on current view
+  // Build breadcrumb based on current view and previous main view
+  // Per ADR: "Dashboard" or "Kanban" is the root, not both
   let breadcrumb: string[] = ['Dashboard'];
-  if (currentView === 'account-detail') {
-    breadcrumb = ['Dashboard', 'Account Detail'];
-  } else if (currentView === 'client-detail') {
-    breadcrumb = ['Dashboard', 'Client Detail'];
+
+  if (currentView === 'dashboard') {
+    breadcrumb = ['Dashboard'];
   } else if (currentView === 'kanban') {
-    breadcrumb = ['Dashboard', 'Kanban'];
+    breadcrumb = ['Kanban'];
+  } else if (currentView === 'client-detail') {
+    // When viewing client detail, show root based on previous view
+    const root = previousMainView === 'kanban' ? 'Kanban' : 'Dashboard';
+    const clientName = mockClients.find((c) => c.id === selectedClientId)?.name || 'Client';
+    breadcrumb = [root, clientName];
+  } else if (currentView === 'account-detail') {
+    // When viewing account detail, show full path: [Root] > [Client] > [Account]
+    const root = previousMainView === 'kanban' ? 'Kanban' : 'Dashboard';
+    const account = mockAccounts.find((a) => a.id === selectedAccountId);
+    const client = account ? mockClients.find((c) => c.id === account.client_id) : null;
+    const accountName = account
+      ? `${account.institution_name} ${account.type.charAt(0).toUpperCase() + account.type.slice(1)}`
+      : 'Account';
+    breadcrumb = [root, client?.name || 'Client', accountName];
   }
 
+  // Determine which main view to show in view switcher
+  // Only show switcher for dashboard/kanban views, not detail views
+  const mainViewForSwitcher = currentView === 'dashboard' || currentView === 'kanban'
+    ? currentView
+    : previousMainView;
+
+  const handleViewChange = (view: 'dashboard' | 'kanban') => {
+    if (view === 'dashboard') {
+      navigateToDashboard();
+    } else {
+      navigateToKanban();
+    }
+  };
+
   return (
-    <DashboardLayout breadcrumb={breadcrumb}>
+    <DashboardLayout
+      breadcrumb={breadcrumb}
+      currentView={mainViewForSwitcher}
+      onViewChange={handleViewChange}
+    >
       {currentView === 'dashboard' && (
         <div>
           <h1 style={{ fontSize: '24px', marginBottom: '16px', color: '#2c3e50' }}>
@@ -75,7 +90,7 @@ function App() {
           {/* Demo navigation */}
           <div style={{ marginTop: '32px', display: 'flex', gap: '12px' }}>
             <button
-              onClick={() => handleNavigateToAccount('account-001')}
+              onClick={() => navigateToAccount('account-001')}
               style={{
                 padding: '10px 16px',
                 backgroundColor: '#3498db',
@@ -90,7 +105,7 @@ function App() {
               View Account Detail
             </button>
             <button
-              onClick={handleNavigateToKanban}
+              onClick={navigateToKanban}
               style={{
                 padding: '10px 16px',
                 backgroundColor: '#27ae60',
@@ -111,7 +126,7 @@ function App() {
       {currentView === 'account-detail' && selectedAccountId && (
         <AccountDetail
           accountId={selectedAccountId}
-          onNavigateToClient={handleNavigateToDashboard}
+          onNavigateToClient={navigateBack}
         />
       )}
 
@@ -129,7 +144,7 @@ function App() {
         <KanbanBoard
           clients={filteredClients}
           accounts={mockAccounts}
-          onClientClick={handleNavigateToClient}
+          onClientClick={navigateToClient}
         />
       )}
     </DashboardLayout>
