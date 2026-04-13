@@ -45,6 +45,7 @@ function QuestionRow({
         className={`question-row__toggle question-row__toggle--${status}`}
         onClick={() => onToggleStatus(id)}
         title={status === 'open' ? 'Mark as resolved' : 'Reopen question'}
+        aria-pressed={status === 'resolved'}
       >
         {status === 'open' ? 'Open' : 'Resolved'}
       </button>
