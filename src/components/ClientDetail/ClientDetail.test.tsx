@@ -118,7 +118,7 @@ describe('ClientDetail', () => {
         schedule={mockSchedule}
       />
     );
-    expect(screen.getByText('Questions')).toBeInTheDocument();
+    expect(screen.getByText('Notes')).toBeInTheDocument();
     expect(screen.getByText('1 open')).toBeInTheDocument();
   });
 });

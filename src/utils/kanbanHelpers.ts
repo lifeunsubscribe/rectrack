@@ -4,9 +4,9 @@ import type { ClientWithMetadata } from '../hooks/useClientFilter';
  * Step definitions matching ADR Section 4
  */
 export const STEP_LABELS = [
-  'Access confirmed',
+  'Bank statements received',
   'Reconciled',
-  'Questions resolved',
+  'Notes resolved',
   'Jen review',
   'Sent to client',
 ] as const;
@@ -33,9 +33,9 @@ export interface KanbanColumn {
  */
 export function groupClientsByStep(clients: ClientWithMetadata[]): KanbanColumn[] {
   const columns: KanbanColumn[] = [
-    { id: 'step-1', title: '1. Access confirmed', clients: [] },
+    { id: 'step-1', title: '1. Bank statements received', clients: [] },
     { id: 'step-2', title: '2. Reconciled', clients: [] },
-    { id: 'step-3', title: '3. Questions resolved', clients: [] },
+    { id: 'step-3', title: '3. Notes resolved', clients: [] },
     { id: 'step-4', title: '4. Jen review', clients: [] },
     { id: 'step-5', title: '5. Sent to client', clients: [] },
     { id: 'complete', title: 'Complete', clients: [] },

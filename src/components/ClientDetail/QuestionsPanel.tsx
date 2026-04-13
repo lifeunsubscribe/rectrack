@@ -47,22 +47,22 @@ function QuestionsPanel({ questions }: QuestionsPanelProps) {
     <div className="questions-panel">
       <div className="questions-panel__header">
         <h3 className="questions-panel__title">
-          Questions
+          Notes
           {openQuestions.length > 0 && (
             <span className="questions-panel__count">{openQuestions.length} open</span>
           )}
         </h3>
         <button
           className="questions-panel__add-btn"
-          onClick={() => alert('Add question feature coming soon (demo placeholder)')}
+          onClick={() => alert('Add note feature coming soon (demo placeholder)')}
         >
-          + Add Question
+          + Add Note
         </button>
       </div>
 
       <div className="questions-panel__list">
         {openQuestions.length === 0 && resolvedQuestions.length === 0 ? (
-          <div className="questions-panel__empty">No questions for this period</div>
+          <div className="questions-panel__empty">No notes for this period</div>
         ) : (
           <>
             {openQuestions.map((question) => (

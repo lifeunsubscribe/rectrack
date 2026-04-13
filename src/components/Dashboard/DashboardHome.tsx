@@ -58,7 +58,7 @@ function DashboardHome({ clients, accounts, onClientClick }: DashboardHomeProps)
 
       <div style={styles.summaryGrid}>
         <SummaryCard label="Active clients" value={totalClients} accent="#3B82F6" />
-        <SummaryCard label="Open questions" value={openQuestions} accent="#8B5CF6" />
+        <SummaryCard label="Open notes" value={openQuestions} accent="#8B5CF6" />
         <SummaryCard
           label="Clients needing attention"
           value={atRiskClients.length}
@@ -122,7 +122,7 @@ function DashboardHome({ clients, accounts, onClientClick }: DashboardHomeProps)
                   <span style={styles.rowMeta}>
                     Step {c.currentStep}/5
                     {c.openQuestionCount > 0 &&
-                      ` · ${c.openQuestionCount} open question${c.openQuestionCount === 1 ? '' : 's'}`}
+                      ` · ${c.openQuestionCount} open note${c.openQuestionCount === 1 ? '' : 's'}`}
                   </span>
                 </button>
               </li>

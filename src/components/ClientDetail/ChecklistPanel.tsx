@@ -9,9 +9,9 @@ interface ChecklistPanelProps {
 
 // Step definitions from ADR Section 4
 const CHECKLIST_STEPS = [
-  { number: 1, label: 'Access confirmed for all accounts' },
+  { number: 1, label: 'Bank statements received for all accounts' },
   { number: 2, label: 'All accounts reconciled as of close date' },
-  { number: 3, label: 'All client questions resolved' },
+  { number: 3, label: 'All client notes resolved' },
   { number: 4, label: 'Jen review complete' },
   { number: 5, label: 'Financials sent to client' },
 ];

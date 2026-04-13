@@ -24,8 +24,8 @@ function QuestionBadge({ count }: QuestionBadgeProps) {
         textAlign: 'center',
         display: 'inline-block',
       }}
-      title={`${count} open question${count !== 1 ? 's' : ''}`}
-      aria-label={`${count} open questions`}
+      title={`${count} open note${count !== 1 ? 's' : ''}`}
+      aria-label={`${count} open notes`}
     >
       {count}
     </span>

@@ -68,7 +68,7 @@ export const mockTimeline: TimelineEvent[] = [
     timestamp: '2026-04-02T10:30:00Z',
     metadata: {
       step: 1,
-      step_name: 'Access confirmed for all accounts',
+      step_name: 'Bank statements received for all accounts',
       period: '2026-04',
     },
     client_id: 'client-001',
@@ -148,7 +148,7 @@ export const mockTimeline: TimelineEvent[] = [
     timestamp: '2026-04-10T09:45:00Z',
     metadata: {
       step: 3,
-      step_name: 'All client questions resolved',
+      step_name: 'All client notes resolved',
       period: '2026-04',
     },
     client_id: 'client-001',
@@ -178,7 +178,7 @@ export const mockTimeline: TimelineEvent[] = [
     timestamp: '2026-03-05T11:20:00Z',
     metadata: {
       step: 1,
-      step_name: 'Access confirmed for all accounts',
+      step_name: 'Bank statements received for all accounts',
       period: '2026-03',
     },
     client_id: 'client-002',

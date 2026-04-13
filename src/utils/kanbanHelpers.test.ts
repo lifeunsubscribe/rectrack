@@ -84,11 +84,11 @@ describe('kanbanHelpers', () => {
 
       expect(columns).toHaveLength(6);
       expect(columns[0].id).toBe('step-1');
-      expect(columns[0].title).toBe('1. Access confirmed');
+      expect(columns[0].title).toBe('1. Bank statements received');
       expect(columns[1].id).toBe('step-2');
       expect(columns[1].title).toBe('2. Reconciled');
       expect(columns[2].id).toBe('step-3');
-      expect(columns[2].title).toBe('3. Questions resolved');
+      expect(columns[2].title).toBe('3. Notes resolved');
       expect(columns[3].id).toBe('step-4');
       expect(columns[3].title).toBe('4. Jen review');
       expect(columns[4].id).toBe('step-5');

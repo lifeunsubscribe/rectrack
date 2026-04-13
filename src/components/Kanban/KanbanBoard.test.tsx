@@ -55,9 +55,9 @@ describe('KanbanBoard', () => {
       <KanbanBoard clients={mockClients} accounts={mockAccounts} onClientClick={onClientClick} />
     );
 
-    expect(screen.getByText('1. Access confirmed')).toBeInTheDocument();
+    expect(screen.getByText('1. Bank statements received')).toBeInTheDocument();
     expect(screen.getByText('2. Reconciled')).toBeInTheDocument();
-    expect(screen.getByText('3. Questions resolved')).toBeInTheDocument();
+    expect(screen.getByText('3. Notes resolved')).toBeInTheDocument();
     expect(screen.getByText('4. Jen review')).toBeInTheDocument();
     expect(screen.getByText('5. Sent to client')).toBeInTheDocument();
     expect(screen.getByText('Complete')).toBeInTheDocument();
