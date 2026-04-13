@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import type { FieldPreference } from '../../hooks/useFieldPreferences';
 
 interface PanelEditModalProps {
@@ -20,6 +21,23 @@ export default function PanelEditModal({
   onToggleField,
   onReset,
 }: PanelEditModalProps) {
+  // Handle ESC key to close modal (keyboard accessibility)
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) {
     return null;
   }
@@ -42,6 +60,9 @@ export default function PanelEditModal({
 
       {/* Modal */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
         style={{
           position: 'fixed',
           top: '50%',
@@ -60,11 +81,12 @@ export default function PanelEditModal({
       >
         {/* Header */}
         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 style={{ margin: 0, fontSize: '20px', color: '#2c3e50', fontWeight: '600' }}>
+          <h2 id="modal-title" style={{ margin: 0, fontSize: '20px', color: '#2c3e50', fontWeight: '600' }}>
             Edit Layout
           </h2>
           <button
             onClick={onClose}
+            aria-label="Close modal"
             style={{
               background: 'none',
               border: 'none',

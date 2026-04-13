@@ -108,4 +108,38 @@ describe('PanelEditModal', () => {
     await user.click(screen.getByText(/Done/i));
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
+
+  it('calls onClose when ESC key is pressed', async () => {
+    const user = userEvent.setup();
+    const mockOnClose = vi.fn();
+
+    render(
+      <PanelEditModal
+        isOpen={true}
+        onClose={mockOnClose}
+        preferences={mockPreferences}
+        onToggleField={vi.fn()}
+        onReset={vi.fn()}
+      />
+    );
+
+    await user.keyboard('{Escape}');
+    expect(mockOnClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('has proper ARIA attributes for accessibility', () => {
+    render(
+      <PanelEditModal
+        isOpen={true}
+        onClose={vi.fn()}
+        preferences={mockPreferences}
+        onToggleField={vi.fn()}
+        onReset={vi.fn()}
+      />
+    );
+
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveAttribute('aria-modal', 'true');
+    expect(dialog).toHaveAttribute('aria-labelledby', 'modal-title');
+  });
 });
