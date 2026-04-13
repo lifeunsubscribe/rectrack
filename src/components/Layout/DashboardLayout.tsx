@@ -17,22 +17,35 @@ interface DashboardLayoutProps {
   breadcrumb?: string[];
   currentView?: MainView;
   onViewChange?: (view: MainView) => void;
+  // Optional controlled selection. When both are provided, the parent owns
+  // selection and sidebar clicks drive App-level navigation; otherwise
+  // DashboardLayout manages selection internally (legacy path).
+  selectedClientId?: string | null;
+  onClientSelect?: (clientId: string) => void;
   children?: ReactNode;
 }
 
-function DashboardLayout({ breadcrumb, currentView, onViewChange, children }: DashboardLayoutProps) {
-  // Detect mobile viewport (<=768px)
+function DashboardLayout({
+  breadcrumb,
+  currentView,
+  onViewChange,
+  selectedClientId: controlledSelectedId,
+  onClientSelect,
+  children,
+}: DashboardLayoutProps) {
   const isMobile = useMobileBreakpoint();
-
-  // Mobile drawer state: hidden by default on mobile
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  const [internalSelectedId, setInternalSelectedId] = useState<string | null>(null);
 
-  // Lift client selection state to coordinate between Sidebar and MainContent
-  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const isControlled = controlledSelectedId !== undefined && onClientSelect !== undefined;
+  const selectedClientId = isControlled ? controlledSelectedId : internalSelectedId;
 
-  // Handle client selection: close drawer on mobile when client is selected
   const handleClientSelect = (clientId: string) => {
-    setSelectedClientId(clientId);
+    if (isControlled) {
+      onClientSelect!(clientId);
+    } else {
+      setInternalSelectedId(clientId);
+    }
     if (isMobile) {
       setIsMobileDrawerOpen(false);
     }

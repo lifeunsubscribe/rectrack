@@ -1,4 +1,5 @@
 import DashboardLayout from './components/Layout/DashboardLayout';
+import DashboardHome from './components/Dashboard/DashboardHome';
 import AccountDetail from './components/AccountDetail/AccountDetail';
 import ClientDetail from './components/ClientDetail/ClientDetail';
 import KanbanBoard from './components/Kanban/KanbanBoard';
@@ -77,50 +78,15 @@ function App() {
       breadcrumb={breadcrumb}
       currentView={mainViewForSwitcher}
       onViewChange={handleViewChange}
+      selectedClientId={currentView === 'client-detail' ? selectedClientId : null}
+      onClientSelect={navigateToClient}
     >
       {currentView === 'dashboard' && (
-        <div>
-          <h1 style={{ fontSize: '24px', marginBottom: '16px', color: '#2c3e50' }}>
-            RecTrack Demo
-          </h1>
-          <p style={{ fontSize: '16px', color: '#7f8c8d', marginBottom: '24px' }}>
-            CPA Reconciliation Workflow Tracker
-          </p>
-
-          {/* Demo navigation */}
-          <div style={{ marginTop: '32px', display: 'flex', gap: '12px' }}>
-            <button
-              onClick={() => navigateToAccount('account-001')}
-              style={{
-                padding: '10px 16px',
-                backgroundColor: '#3498db',
-                color: '#ffffff',
-                fontSize: '14px',
-                fontWeight: '500',
-                borderRadius: '4px',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              View Account Detail
-            </button>
-            <button
-              onClick={navigateToKanban}
-              style={{
-                padding: '10px 16px',
-                backgroundColor: '#27ae60',
-                color: '#ffffff',
-                fontSize: '14px',
-                fontWeight: '500',
-                borderRadius: '4px',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              View Kanban Board
-            </button>
-          </div>
-        </div>
+        <DashboardHome
+          clients={filteredClients}
+          accounts={mockAccounts}
+          onClientClick={navigateToClient}
+        />
       )}
 
       {currentView === 'account-detail' && selectedAccountId && (
