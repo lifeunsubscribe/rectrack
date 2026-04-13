@@ -1,29 +1,35 @@
 /**
  * DashboardLayout component - Two-pane dashboard shell
  * Persistent left sidebar + main content area
- * Phase 1: Basic structure with placeholders
+ * Manages client selection state and passes it to Sidebar and MainContent
  */
 
-import { ReactNode } from 'react';
+import { useState } from 'react';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
 import MainContent from './MainContent';
 import '../../styles/layout.css';
 
 interface DashboardLayoutProps {
-  children?: ReactNode;
   breadcrumb?: string[];
 }
 
-function DashboardLayout({ children, breadcrumb }: DashboardLayoutProps) {
+function DashboardLayout({ breadcrumb }: DashboardLayoutProps) {
   // Sidebar collapse functionality will be added in a future phase
   const isSidebarCollapsed = false;
 
+  // Lift client selection state to coordinate between Sidebar and MainContent
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+
   return (
     <div className={`dashboard-layout ${isSidebarCollapsed ? 'dashboard-layout--sidebar-collapsed' : ''}`}>
-      <Sidebar isCollapsed={isSidebarCollapsed} />
+      <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        selectedClientId={selectedClientId}
+        onSelectClient={setSelectedClientId}
+      />
       <TopBar breadcrumb={breadcrumb} />
-      <MainContent>{children}</MainContent>
+      <MainContent selectedClientId={selectedClientId} />
     </div>
   );
 }

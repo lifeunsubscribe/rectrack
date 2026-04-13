@@ -8,13 +8,9 @@ describe('DashboardLayout', () => {
     expect(screen.getByText(/RecTrack/i)).toBeInTheDocument()
   })
 
-  it('renders with custom children', () => {
-    render(
-      <DashboardLayout>
-        <div>Custom content</div>
-      </DashboardLayout>
-    )
-    expect(screen.getByText('Custom content')).toBeInTheDocument()
+  it('shows welcome message when no client is selected', () => {
+    render(<DashboardLayout />)
+    expect(screen.getByText('Select a client from the sidebar to view details')).toBeInTheDocument()
   })
 
   it('renders with custom breadcrumb', () => {

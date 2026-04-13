@@ -1,6 +1,7 @@
 /**
  * Sidebar component - Persistent left panel for client list
  * Populated with scrollable client list, search, and filters
+ * Passes selection state through to ClientList
  */
 
 import ClientList from '../Sidebar/ClientList';
@@ -12,9 +13,11 @@ import { mockSchedules } from '../../data/mockSchedules';
 
 interface SidebarProps {
   isCollapsed?: boolean;
+  selectedClientId?: string | null;
+  onSelectClient?: (clientId: string) => void;
 }
 
-function Sidebar({ isCollapsed = false }: SidebarProps) {
+function Sidebar({ isCollapsed = false, selectedClientId, onSelectClient }: SidebarProps) {
   if (isCollapsed) {
     return (
       <div className="dashboard-layout__sidebar">
@@ -33,6 +36,8 @@ function Sidebar({ isCollapsed = false }: SidebarProps) {
         questions={mockQuestions}
         accounts={mockAccounts}
         schedules={mockSchedules}
+        selectedClientId={selectedClientId}
+        onSelectClient={onSelectClient}
       />
     </div>
   );

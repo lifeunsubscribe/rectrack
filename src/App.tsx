@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import DashboardLayout from './components/Layout/DashboardLayout';
 import AccountDetail from './components/AccountDetail/AccountDetail';
+import ClientDetail from './components/ClientDetail/ClientDetail';
 import KanbanBoard from './components/Kanban/KanbanBoard';
 import { useClientFilter } from './hooks/useClientFilter';
 import {
@@ -11,11 +12,12 @@ import {
   mockSchedules,
 } from './data';
 
-type View = 'dashboard' | 'account-detail' | 'kanban';
+type View = 'dashboard' | 'account-detail' | 'client-detail' | 'kanban';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('kanban');
   const [selectedAccountId, setSelectedAccountId] = useState<string | null>(null);
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
 
   // Use client filter hook to get enriched client data
   const { filteredClients } = useClientFilter({
@@ -33,25 +35,28 @@ function App() {
   };
 
   const handleNavigateToClient = (clientId: string) => {
-    // TODO: Navigate to client detail view when issue #7 is complete
-    // For now, show a placeholder alert
-    alert(`Client detail view not yet implemented. Selected client: ${clientId}`);
+    setSelectedClientId(clientId);
+    setCurrentView('client-detail');
   };
 
   const handleNavigateToDashboard = () => {
     setCurrentView('dashboard');
     setSelectedAccountId(null);
+    setSelectedClientId(null);
   };
 
   const handleNavigateToKanban = () => {
     setCurrentView('kanban');
     setSelectedAccountId(null);
+    setSelectedClientId(null);
   };
 
   // Breadcrumb based on current view
   let breadcrumb: string[] = ['Dashboard'];
   if (currentView === 'account-detail') {
     breadcrumb = ['Dashboard', 'Account Detail'];
+  } else if (currentView === 'client-detail') {
+    breadcrumb = ['Dashboard', 'Client Detail'];
   } else if (currentView === 'kanban') {
     breadcrumb = ['Dashboard', 'Kanban'];
   }
@@ -107,6 +112,16 @@ function App() {
         <AccountDetail
           accountId={selectedAccountId}
           onNavigateToClient={handleNavigateToDashboard}
+        />
+      )}
+
+      {currentView === 'client-detail' && selectedClientId && (
+        <ClientDetail
+          client={mockClients.find((c) => c.id === selectedClientId)!}
+          accounts={mockAccounts.filter((a) => a.clientId === selectedClientId)}
+          checklist={mockChecklists.find((c) => c.clientId === selectedClientId) || null}
+          questions={mockQuestions.filter((q) => q.clientId === selectedClientId)}
+          schedule={mockSchedules.find((s) => s.clientId === selectedClientId) || null}
         />
       )}
 
