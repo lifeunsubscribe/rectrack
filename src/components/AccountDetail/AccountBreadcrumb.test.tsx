@@ -46,4 +46,36 @@ describe('AccountBreadcrumb', () => {
 
     expect(screen.getByText('›')).toBeInTheDocument();
   });
+
+  it('renders client name as an accessible button', () => {
+    const mockOnClientClick = vi.fn();
+    render(
+      <AccountBreadcrumb
+        clientName="Test Client"
+        accountName="Test Account"
+        onClientClick={mockOnClientClick}
+      />
+    );
+
+    const clientButton = screen.getByRole('button', { name: 'Test Client' });
+    expect(clientButton).toBeInTheDocument();
+  });
+
+  it('calls onClientClick when activated via keyboard', async () => {
+    const user = userEvent.setup();
+    const mockOnClientClick = vi.fn();
+
+    render(
+      <AccountBreadcrumb
+        clientName="Test Client"
+        accountName="Test Account"
+        onClientClick={mockOnClientClick}
+      />
+    );
+
+    const clientButton = screen.getByRole('button', { name: 'Test Client' });
+    clientButton.focus();
+    await user.keyboard('{Enter}');
+    expect(mockOnClientClick).toHaveBeenCalledTimes(1);
+  });
 });

@@ -16,9 +16,13 @@ export default function AccountBreadcrumb({
 }: AccountBreadcrumbProps) {
   return (
     <div style={{ marginBottom: '24px', fontSize: '14px', color: '#7f8c8d' }}>
-      <span
+      <button
         onClick={onClientClick}
         style={{
+          border: 'none',
+          background: 'none',
+          padding: 0,
+          font: 'inherit',
           cursor: 'pointer',
           color: '#3498db',
           textDecoration: 'none',
@@ -31,7 +35,7 @@ export default function AccountBreadcrumb({
         }}
       >
         {clientName}
-      </span>
+      </button>
       <span style={{ margin: '0 8px' }}>›</span>
       <span style={{ color: '#2c3e50' }}>{accountName}</span>
     </div>
