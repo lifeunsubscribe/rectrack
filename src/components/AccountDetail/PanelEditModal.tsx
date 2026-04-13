@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import type { FieldPreference } from '../../hooks/useFieldPreferences';
 
 interface PanelEditModalProps {
@@ -21,6 +21,11 @@ export default function PanelEditModal({
   onToggleField,
   onReset,
 }: PanelEditModalProps) {
+  // Store reference to element that had focus before modal opened (for focus restoration)
+  const previousActiveElement = useRef<HTMLElement | null>(null);
+  // Reference to the modal container for focus trap
+  const modalRef = useRef<HTMLDivElement>(null);
+
   // Handle ESC key to close modal (keyboard accessibility)
   useEffect(() => {
     if (!isOpen) return;
@@ -37,6 +42,52 @@ export default function PanelEditModal({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);
+
+  // Focus management: initial focus and restoration
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Store the currently focused element before opening modal
+    previousActiveElement.current = document.activeElement as HTMLElement;
+
+    // Set initial focus to the modal container
+    if (modalRef.current) {
+      modalRef.current.focus();
+    }
+
+    // Restore focus when modal closes
+    return () => {
+      if (previousActiveElement.current) {
+        previousActiveElement.current.focus();
+      }
+    };
+  }, [isOpen]);
+
+  // Focus trap: prevent tab navigation from leaving the modal
+  const handleModalKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'Tab') return;
+
+    if (!modalRef.current) return;
+
+    // Get all focusable elements within the modal
+    const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    // If shift+tab on first element, focus last element
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement?.focus();
+    }
+    // If tab on last element, focus first element
+    else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement?.focus();
+    }
+  };
 
   if (!isOpen) {
     return null;
@@ -60,9 +111,12 @@ export default function PanelEditModal({
 
       {/* Modal */}
       <div
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
+        tabIndex={-1}
+        onKeyDown={handleModalKeyDown}
         style={{
           position: 'fixed',
           top: '50%',
@@ -77,6 +131,7 @@ export default function PanelEditModal({
           overflow: 'auto',
           zIndex: 1001,
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+          outline: 'none',
         }}
       >
         {/* Header */}
