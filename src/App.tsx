@@ -32,6 +32,11 @@ function App() {
       />
     );
   }
+
+  return <AuthedApp />;
+}
+
+function AuthedApp() {
   const {
     currentView,
     selectedClientId,
