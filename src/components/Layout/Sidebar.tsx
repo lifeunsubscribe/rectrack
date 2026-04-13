@@ -1,25 +1,39 @@
 /**
  * Sidebar component - Persistent left panel for client list
- * Placeholder implementation for Phase 1 layout shell
+ * Populated with scrollable client list, search, and filters
  */
+
+import ClientList from '../Sidebar/ClientList';
+import { mockClients } from '../../data/mockClients';
+import { mockChecklists } from '../../data/mockChecklists';
+import { mockQuestions } from '../../data/mockQuestions';
+import { mockAccounts } from '../../data/mockAccounts';
+import { mockSchedules } from '../../data/mockSchedules';
 
 interface SidebarProps {
   isCollapsed?: boolean;
 }
 
 function Sidebar({ isCollapsed = false }: SidebarProps) {
+  if (isCollapsed) {
+    return (
+      <div className="dashboard-layout__sidebar">
+        <div style={{ padding: '20px' }}>
+          <h2 style={{ fontSize: '18px', marginBottom: '16px', fontWeight: 600 }}>C</h2>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="dashboard-layout__sidebar">
-      <div style={{ padding: '20px' }}>
-        <h2 style={{ fontSize: '18px', marginBottom: '16px', fontWeight: 600 }}>
-          {isCollapsed ? 'C' : 'Clients'}
-        </h2>
-        {!isCollapsed && (
-          <p style={{ fontSize: '14px', color: '#95a5a6' }}>
-            Client list will appear here
-          </p>
-        )}
-      </div>
+      <ClientList
+        clients={mockClients}
+        checklists={mockChecklists}
+        questions={mockQuestions}
+        accounts={mockAccounts}
+        schedules={mockSchedules}
+      />
     </div>
   );
 }
