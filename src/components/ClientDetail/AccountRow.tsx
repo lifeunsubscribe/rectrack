@@ -42,8 +42,10 @@ function AccountRow({ account, onClick }: AccountRowProps) {
       onClick={() => onClick(account.id)}
       role="button"
       tabIndex={0}
+      aria-label={`View ${account.institution_name} ${account.type} account details`}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
           onClick(account.id);
         }
       }}

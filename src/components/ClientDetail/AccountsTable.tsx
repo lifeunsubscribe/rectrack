@@ -11,8 +11,7 @@ interface AccountsTableProps {
  */
 function AccountsTable({ accounts }: AccountsTableProps) {
   const handleAccountClick = (accountId: string) => {
-    // Placeholder for navigation - will be implemented in next issue
-    console.log('Navigate to account detail:', accountId);
+    // TODO: Navigation to account detail page will be implemented in next issue
   };
 
   if (accounts.length === 0) {
