@@ -61,7 +61,7 @@ export default function AccountDetail({ accountId, onNavigateToClient }: Account
   }
 
   // Generate account display name
-  const accountDisplayName = `${account.institution_name} ${account.type.charAt(0).toUpperCase() + account.type.slice(1).replace('_', ' ')}`;
+  const accountDisplayName = `${account.institution_name} ${account.type.charAt(0).toUpperCase() + account.type.slice(1).replace(/_/g, ' ')}`;
 
   return (
     <div style={{ padding: '24px', maxWidth: '1200px' }}>

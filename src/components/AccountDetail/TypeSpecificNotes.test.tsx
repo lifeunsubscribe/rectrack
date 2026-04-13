@@ -34,4 +34,11 @@ describe('TypeSpecificNotes', () => {
 
     expect(screen.getByText(/Savings Account Notes/i)).toBeInTheDocument();
   });
+
+  it('handles account types with multiple underscores', () => {
+    const content = 'Test content';
+    render(<TypeSpecificNotes accountType="money_market" content={content} />);
+
+    expect(screen.getByText(/Money market Account Notes/i)).toBeInTheDocument();
+  });
 });

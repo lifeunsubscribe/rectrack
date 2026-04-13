@@ -58,7 +58,7 @@ export default function TypeSpecificNotes({ accountType, content }: TypeSpecific
       }}
     >
       <h3 style={{ margin: '0 0 16px 0', fontSize: '16px', color: '#2c3e50', fontWeight: '600' }}>
-        {accountType.charAt(0).toUpperCase() + accountType.slice(1).replace('_', ' ')} Account Notes
+        {accountType.charAt(0).toUpperCase() + accountType.slice(1).replace(/_/g, ' ')} Account Notes
       </h3>
       <div style={{ fontSize: '14px', lineHeight: '1.6' }}>
         {formatContent(content)}
