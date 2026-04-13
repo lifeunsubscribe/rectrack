@@ -1,0 +1,48 @@
+/* View Switcher Styles */
+
+.view-switcher {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.view-switcher__button {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #d1dbe3;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #34495e;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.view-switcher__button:hover {
+  background-color: #f5f8fa;
+  border-color: #b8c5d1;
+}
+
+.view-switcher__button:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+.view-switcher__button--active {
+  background-color: #3498db;
+  color: #ffffff;
+  border-color: #3498db;
+}
+
+.view-switcher__button--active:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .view-switcher__button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}

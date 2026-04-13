@@ -4,17 +4,21 @@
  * Manages client selection state and passes it to Sidebar and MainContent
  */
 
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
 import MainContent from './MainContent';
+import type { MainView } from '../../hooks/useViewState';
 import '../../styles/layout.css';
 
 interface DashboardLayoutProps {
   breadcrumb?: string[];
+  currentView?: MainView;
+  onViewChange?: (view: MainView) => void;
+  children?: ReactNode;
 }
 
-function DashboardLayout({ breadcrumb }: DashboardLayoutProps) {
+function DashboardLayout({ breadcrumb, currentView, onViewChange, children }: DashboardLayoutProps) {
   // Sidebar collapse functionality will be added in a future phase
   const isSidebarCollapsed = false;
 
@@ -28,8 +32,12 @@ function DashboardLayout({ breadcrumb }: DashboardLayoutProps) {
         selectedClientId={selectedClientId}
         onSelectClient={setSelectedClientId}
       />
-      <TopBar breadcrumb={breadcrumb} />
-      <MainContent selectedClientId={selectedClientId} />
+      <TopBar breadcrumb={breadcrumb} currentView={currentView} onViewChange={onViewChange} />
+      {children ? (
+        <div className="dashboard-layout__main">{children}</div>
+      ) : (
+        <MainContent selectedClientId={selectedClientId} />
+      )}
     </div>
   );
 }
