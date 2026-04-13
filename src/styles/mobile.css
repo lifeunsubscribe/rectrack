@@ -37,8 +37,20 @@
     overflow-x: hidden;
   }
 
-  /* Scope max-width to prevent breaking positioned elements (modals, tooltips, dropdowns) */
-  :not([style*="position: fixed"]):not([style*="position: absolute"]):not([class*="modal"]):not([class*="tooltip"]):not([class*="dropdown"]):not([class*="popover"]) {
+  /* Target specific elements that commonly cause overflow */
+  img,
+  video,
+  iframe,
+  table,
+  pre,
+  code {
+    max-width: 100%;
+  }
+
+  /* Ensure main content containers don't overflow */
+  main,
+  article,
+  section {
     max-width: 100%;
   }
 
