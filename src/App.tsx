@@ -130,15 +130,20 @@ function App() {
         />
       )}
 
-      {currentView === 'client-detail' && selectedClientId && (
-        <ClientDetail
-          client={mockClients.find((c) => c.id === selectedClientId)!}
-          accounts={mockAccounts.filter((a) => a.clientId === selectedClientId)}
-          checklist={mockChecklists.find((c) => c.clientId === selectedClientId) || null}
-          questions={mockQuestions.filter((q) => q.clientId === selectedClientId)}
-          schedule={mockSchedules.find((s) => s.clientId === selectedClientId) || null}
-        />
-      )}
+      {currentView === 'client-detail' && selectedClientId && (() => {
+        const client = mockClients.find((c) => c.id === selectedClientId)!;
+        const schedule =
+          mockSchedules.find((s) => s.id === client.schedule_id) || null;
+        return (
+          <ClientDetail
+            client={client}
+            accounts={mockAccounts.filter((a) => a.client_id === selectedClientId)}
+            checklist={mockChecklists.find((c) => c.client_id === selectedClientId) || null}
+            questions={mockQuestions.filter((q) => q.client_id === selectedClientId)}
+            schedule={schedule}
+          />
+        );
+      })()}
 
       {currentView === 'kanban' && (
         <KanbanBoard

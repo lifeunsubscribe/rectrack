@@ -8,7 +8,7 @@ describe('useMobileBreakpoint', () => {
   beforeEach(() => {
     // Mock window.matchMedia
     mockMatchMedia = vi.fn();
-    window.matchMedia = mockMatchMedia;
+    window.matchMedia = mockMatchMedia as unknown as typeof window.matchMedia;
   });
 
   afterEach(() => {
@@ -20,7 +20,7 @@ describe('useMobileBreakpoint', () => {
 
     mockMatchMedia.mockReturnValue({
       matches: true,
-      addEventListener: vi.fn((event: string, listener: (event: MediaQueryListEvent) => void) => {
+      addEventListener: vi.fn((_event: string, listener: (event: MediaQueryListEvent) => void) => {
         listeners.push(listener);
       }),
       removeEventListener: vi.fn(),
@@ -36,7 +36,7 @@ describe('useMobileBreakpoint', () => {
 
     mockMatchMedia.mockReturnValue({
       matches: false,
-      addEventListener: vi.fn((event: string, listener: (event: MediaQueryListEvent) => void) => {
+      addEventListener: vi.fn((_event: string, listener: (event: MediaQueryListEvent) => void) => {
         listeners.push(listener);
       }),
       removeEventListener: vi.fn(),

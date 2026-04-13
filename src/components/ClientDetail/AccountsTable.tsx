@@ -10,8 +10,9 @@ interface AccountsTableProps {
  * Navigation to account detail page will be implemented in next issue
  */
 function AccountsTable({ accounts }: AccountsTableProps) {
-  const handleAccountClick = (accountId: string) => {
-    // TODO: Navigation to account detail page will be implemented in next issue
+  const handleAccountClick = (_accountId: string) => {
+    // TODO: Thread an onAccountClick prop up through ClientDetail → App so
+    // clicking an account here navigates to the account-detail view.
   };
 
   if (accounts.length === 0) {

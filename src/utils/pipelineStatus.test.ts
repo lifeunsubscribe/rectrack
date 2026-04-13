@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { getPipelineStatus, STATUS_COLORS, DEFAULT_WARNING_DAYS } from './pipelineStatus';
+import { getPipelineStatus, STATUS_COLORS } from './pipelineStatus';
 import type { ChecklistPeriod } from '../types';
 
 describe('pipelineStatus', () => {

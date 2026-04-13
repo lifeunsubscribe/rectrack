@@ -98,7 +98,7 @@ describe('UserNoteRow', () => {
 
     render(<UserNoteRow note={note} />);
 
-    expect(screen.getByText((content, element) => {
+    expect(screen.getByText((_content, element) => {
       return element?.textContent === 'Line 1\nLine 2\nLine 3';
     })).toBeInTheDocument();
   });

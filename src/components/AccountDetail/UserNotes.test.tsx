@@ -168,7 +168,7 @@ describe('UserNotes', () => {
       },
     ];
 
-    const { container } = render(<UserNotes notes={notes} />);
+    render(<UserNotes notes={notes} />);
 
     // Component should render without warnings about duplicate keys
     expect(screen.getByText('Note 1')).toBeInTheDocument();

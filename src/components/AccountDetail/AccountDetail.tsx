@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import type { Account, Client } from '../../types';
 import { mockAccounts } from '../../data/mockAccounts';
 import { mockClients } from '../../data/mockClients';
 import { mockNotes } from '../../data/mockNotes';
