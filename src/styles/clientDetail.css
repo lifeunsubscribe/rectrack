@@ -388,3 +388,111 @@
   align-items: center;
   justify-content: center;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* Reduce padding on mobile */
+  .client-detail {
+    padding: 16px;
+  }
+
+  /* Stack header elements */
+  .client-header {
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+
+  .client-header__name {
+    font-size: 24px;
+  }
+
+  .client-header__meta {
+    flex-wrap: wrap;
+  }
+
+  .client-header__edit-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  /* Reduce spacing between sections */
+  .client-detail__content {
+    gap: 24px;
+  }
+
+  .client-detail__section {
+    padding: 16px;
+  }
+
+  /* Accounts table: switch to card layout on mobile */
+  .accounts-table__header {
+    display: none; /* Hide table headers on mobile */
+  }
+
+  .account-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    align-items: flex-start;
+  }
+
+  .account-row__type {
+    justify-content: flex-start;
+  }
+
+  .account-row__institution {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* Checklist steps - ensure touch targets */
+  .checklist-step {
+    padding: 16px 12px;
+  }
+
+  .checklist-step__checkbox {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Questions panel */
+  .questions-panel__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .questions-panel__add-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .question-row {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .question-row__toggle {
+    width: 100%;
+    min-height: 44px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .client-detail {
+    padding: 12px;
+  }
+
+  .client-header__name {
+    font-size: 20px;
+  }
+
+  .client-detail__section {
+    padding: 12px;
+  }
+}

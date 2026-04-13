@@ -1,0 +1,81 @@
+/**
+ * Mobile-specific shared utilities
+ * Touch targets, overlays, and mobile-first utilities
+ */
+
+/* Mobile Drawer Overlay */
+.mobile-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-drawer-overlay--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Touch Target Utilities */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Prevent horizontal overflow on mobile */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  * {
+    max-width: 100%;
+  }
+
+  /* Ensure touch-friendly spacing */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+  }
+
+  /* Mobile-specific text sizing for readability */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Horizontal scroll indicator for mobile */
+.mobile-scroll-indicator {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-scroll-indicator {
+    display: block;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(149, 165, 166, 0.3) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+}

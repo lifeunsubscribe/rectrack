@@ -67,14 +67,33 @@
   background: #7f8c8d;
 }
 
-/* Responsive adjustments for mobile */
+/* Responsive adjustments for mobile - horizontal scroll with visible indicator */
 @media (max-width: 768px) {
   .kanban-board {
     padding: 16px;
+    padding-bottom: 24px; /* Make room for scroll indicator */
+    /* Force horizontal scroll visibility */
+    scrollbar-color: #95a5a6 #f1f1f1;
+    scrollbar-width: thin;
   }
 
   .kanban-column {
     flex: 0 0 240px;
     max-height: calc(100vh - 200px);
+  }
+
+  /* Enhanced scrollbar for mobile - always visible */
+  .kanban-board::-webkit-scrollbar {
+    height: 12px;
+  }
+
+  .kanban-board::-webkit-scrollbar-track {
+    background: #e1e8ed;
+    border-radius: 6px;
+  }
+
+  .kanban-board::-webkit-scrollbar-thumb {
+    background: #7f8c8d;
+    border-radius: 6px;
   }
 }

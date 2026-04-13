@@ -40,9 +40,18 @@
 }
 
 /* Responsive adjustments */
+@media (max-width: 768px) {
+  /* Ensure touch-friendly targets on mobile */
+  .view-switcher__button {
+    min-height: 44px;
+    padding: 10px 16px;
+  }
+}
+
 @media (max-width: 480px) {
   .view-switcher__button {
-    padding: 6px 12px;
+    padding: 10px 12px;
     font-size: 13px;
+    min-height: 44px;
   }
 }
