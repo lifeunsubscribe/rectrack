@@ -57,6 +57,10 @@ export function useViewState(initialView: View = 'dashboard'): ViewState & ViewS
   };
 
   // Navigate back from account detail to the previous main view
+  // Note: Unlike navigateToDashboard/navigateToKanban, this intentionally preserves
+  // selectedClientId to maintain client context when returning from account detail.
+  // This allows users to return to the same client view they were on before drilling
+  // down to account details.
   const navigateBack = () => {
     setSelectedAccountId(null);
     setCurrentView(previousMainView);
