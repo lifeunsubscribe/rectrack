@@ -137,7 +137,7 @@ describe('useViewState', () => {
     expect(result.current.selectedAccountId).toBe(null);
   });
 
-  it('navigateBack clears account selection but preserves client selection', () => {
+  it('navigateBack clears both client and account selection', () => {
     const { result } = renderHook(() => useViewState());
 
     act(() => {
@@ -153,7 +153,39 @@ describe('useViewState', () => {
       result.current.navigateBack();
     });
 
+    expect(result.current.selectedClientId).toBe(null);
     expect(result.current.selectedAccountId).toBe(null);
     expect(result.current.currentView).toBe('dashboard');
+  });
+
+  it('navigates kanban → client detail → back to kanban', () => {
+    const { result } = renderHook(() => useViewState());
+
+    // Start from kanban view
+    act(() => {
+      result.current.navigateToKanban();
+    });
+
+    expect(result.current.currentView).toBe('kanban');
+    expect(result.current.previousMainView).toBe('kanban');
+    expect(result.current.selectedClientId).toBe(null);
+
+    // Navigate to client detail
+    act(() => {
+      result.current.navigateToClient('client-123');
+    });
+
+    expect(result.current.currentView).toBe('client-detail');
+    expect(result.current.selectedClientId).toBe('client-123');
+    expect(result.current.previousMainView).toBe('kanban');
+
+    // Navigate back should return to kanban and clear client selection
+    act(() => {
+      result.current.navigateBack();
+    });
+
+    expect(result.current.currentView).toBe('kanban');
+    expect(result.current.selectedClientId).toBe(null);
+    expect(result.current.previousMainView).toBe('kanban');
   });
 });
