@@ -11,6 +11,7 @@ interface TopBarProps {
   currentView?: MainView;
   onViewChange?: (view: MainView) => void;
   isMobile?: boolean;
+  isMobileDrawerOpen?: boolean;
   onToggleMobileDrawer?: () => void;
 }
 
@@ -19,6 +20,7 @@ function TopBar({
   currentView,
   onViewChange,
   isMobile = false,
+  isMobileDrawerOpen = false,
   onToggleMobileDrawer,
 }: TopBarProps) {
   return (
@@ -30,7 +32,7 @@ function TopBar({
             onClick={onToggleMobileDrawer}
             className="hamburger-button touch-target"
             aria-label="Toggle sidebar menu"
-            aria-expanded={false}
+            aria-expanded={isMobileDrawerOpen}
             type="button"
           >
             <svg

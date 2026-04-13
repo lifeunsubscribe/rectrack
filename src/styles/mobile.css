@@ -37,7 +37,8 @@
     overflow-x: hidden;
   }
 
-  * {
+  /* Scope max-width to prevent breaking positioned elements (modals, tooltips, dropdowns) */
+  :not([style*="position: fixed"]):not([style*="position: absolute"]):not([class*="modal"]):not([class*="tooltip"]):not([class*="dropdown"]):not([class*="popover"]) {
     max-width: 100%;
   }
 

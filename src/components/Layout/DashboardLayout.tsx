@@ -71,6 +71,7 @@ function DashboardLayout({ breadcrumb, currentView, onViewChange, children }: Da
         currentView={currentView}
         onViewChange={onViewChange}
         isMobile={isMobile}
+        isMobileDrawerOpen={isMobileDrawerOpen}
         onToggleMobileDrawer={toggleMobileDrawer}
       />
       {children ? (
