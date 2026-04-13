@@ -12,11 +12,9 @@ interface KanbanColumnProps {
 /**
  * Calculate days until earliest close date for a client
  * Uses the same logic as useClientFilter for finding earliest close date
+ * All date calculations performed in UTC to avoid timezone inconsistencies
  */
 function getDaysUntilClose(clientId: string, accounts: Account[]): number | undefined {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
   const clientAccounts = accounts.filter((a) => a.client_id === clientId);
   const closeDates = clientAccounts
     .map((a) => a.close_date)
@@ -28,15 +26,17 @@ function getDaysUntilClose(clientId: string, accounts: Account[]): number | unde
 
   // Sort ISO date strings lexicographically (YYYY-MM-DD sorts correctly)
   const earliestCloseDate = closeDates.sort()[0];
-  const closeDateObj = new Date(earliestCloseDate);
+  const closeDateObj = new Date(earliestCloseDate + 'T00:00:00Z');
 
   if (isNaN(closeDateObj.getTime())) {
     return undefined;
   }
 
-  closeDateObj.setHours(0, 0, 0, 0);
+  // Get today's date in UTC to ensure consistent timezone handling
+  const now = new Date();
+  const todayUTC = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
 
-  const diffMs = closeDateObj.getTime() - today.getTime();
+  const diffMs = closeDateObj.getTime() - todayUTC.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   return diffDays;
