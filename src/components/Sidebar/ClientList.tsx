@@ -12,14 +12,35 @@ interface ClientListProps {
   questions: Question[];
   accounts: Account[];
   schedules: Schedule[];
+  // Optional controlled selection. When both are provided, the parent owns
+  // selection state; otherwise ClientList manages it internally.
+  selectedClientId?: string | null;
+  onSelectClient?: (clientId: string) => void;
 }
 
 /**
  * ClientList - Scrollable client list with search and filter controls
  * Container component that manages client selection and filtering
  */
-function ClientList({ clients, checklists, questions, accounts, schedules }: ClientListProps) {
-  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+function ClientList({
+  clients,
+  checklists,
+  questions,
+  accounts,
+  schedules,
+  selectedClientId: controlledSelectedId,
+  onSelectClient,
+}: ClientListProps) {
+  const [internalSelectedId, setInternalSelectedId] = useState<string | null>(null);
+  const isControlled = controlledSelectedId !== undefined && onSelectClient !== undefined;
+  const selectedClientId = isControlled ? controlledSelectedId : internalSelectedId;
+  const handleSelect = (clientId: string) => {
+    if (isControlled) {
+      onSelectClient!(clientId);
+    } else {
+      setInternalSelectedId(clientId);
+    }
+  };
 
   const {
     filteredClients,
@@ -83,7 +104,7 @@ function ClientList({ clients, checklists, questions, accounts, schedules }: Cli
               key={clientData.client.id}
               clientData={clientData}
               isSelected={clientData.client.id === selectedClientId}
-              onClick={() => setSelectedClientId(clientData.client.id)}
+              onClick={() => handleSelect(clientData.client.id)}
             />
           ))
         )}

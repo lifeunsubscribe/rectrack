@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import ClientList from './ClientList';
@@ -121,15 +122,24 @@ describe('ClientList', () => {
   });
 
   it('highlights selected client on click', () => {
-    const { container } = render(
-      <ClientList
-        clients={mockClients}
-        checklists={mockChecklists}
-        questions={mockQuestions}
-        accounts={mockAccounts}
-        schedules={mockSchedules}
-      />
-    );
+    // Wrapper holds selection state so the test works whether ClientList
+    // manages selection internally or receives it as a controlled prop.
+    function Wrapper() {
+      const [selectedId, setSelectedId] = useState<string | null>(null);
+      return (
+        <ClientList
+          clients={mockClients}
+          checklists={mockChecklists}
+          questions={mockQuestions}
+          accounts={mockAccounts}
+          schedules={mockSchedules}
+          selectedClientId={selectedId}
+          onSelectClient={setSelectedId}
+        />
+      );
+    }
+
+    const { container } = render(<Wrapper />);
 
     const firstClient = screen.getByText('Greenfield Consulting LLC');
     fireEvent.click(firstClient);
